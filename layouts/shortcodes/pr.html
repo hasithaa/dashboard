@@ -1,0 +1,24 @@
+{{ $view:= default "" (.Get "view") }}
+{{ $team:= default "" (.Get "team") }}
+{{ if eq $team "Compiler" }}
+{{ .Scratch.Set "prdata" .Site.Data.PR_FE.data.organization.repository.pullRequests.nodes }}
+{{ else if eq $team "CompilerTools" }}
+{{ .Scratch.Set "prdata" .Site.Data.PR_CT.data.organization.repository.pullRequests.nodes }}
+{{ else if eq $team "JBallerina" }}
+{{ .Scratch.Set "prdata" .Site.Data.PR_RT.data.organization.repository.pullRequests.nodes }}
+{{ end }}
+
+{{ range (.Scratch.Get "prdata" ) }}
+    {{ $last:= sub now.YearDay (time .updatedAt).YearDay }}
+    {{ if and  (eq $view "draft") (eq .isDraft true)}}
+        {{ partial "pr" . }}
+    {{ else if and  (eq .isDraft false) (and (eq $view "APPROVED") (eq .reviewDecision "APPROVED")) }}
+        {{ partial "pr" . }}
+    {{ else if and  (eq .isDraft false) (and (eq $view "REVIEW_REQUIRED") (eq .reviewDecision "REVIEW_REQUIRED")) }}
+        {{ partial "pr" . }}
+    {{ else if and (eq $view "ATTENTION") (eq .mergeable "CONFLICTING") }}
+        {{ partial "pr" . }}
+    {{ else if and (eq $view "ATTENTION") (ge $last 10) }}
+        {{ partial "pr" . }}
+    {{ end }}
+{{ end }}

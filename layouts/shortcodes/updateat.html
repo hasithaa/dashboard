@@ -1,0 +1,10 @@
+{{ $team:= .Get "team" }}
+{{ if eq $team "Compiler" }}
+{{ .Scratch.Set "date" .Site.Data.PR_FE.data.organization.repository.updatedAt }}
+{{ else if eq $team "CompilerTools" }}
+{{ .Scratch.Set "date" .Site.Data.PR_CT.data.organization.repository.updatedAt }}
+{{ else if eq $team "JBallerina" }}
+{{ .Scratch.Set "date" .Site.Data.PR_RT.data.organization.repository.updatedAt }}
+{{ end }}
+
+<p>Last Updated at {{ time (.Scratch.Get "date")}} </p>

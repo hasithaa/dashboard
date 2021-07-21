@@ -1,0 +1,37 @@
+<div class="gh w3-container w3-round w3-border w3-section">
+    {{ $last:= sub now.YearDay (time .updatedAt).YearDay }}
+    <a class="w3-button" href="{{.url}}" target="_blank">
+        <i class="bi bi-github"></i> <strong>#{{ .number }}</strong>
+    </a>
+    {{ if ge $last 10}} <i class="bi bi-calendar-x w3-text-red" title="Older than 10 days"></i>{{end}}
+    {{ if eq .mergeable "CONFLICTING"}} <i class="bi bi-file-earmark-x w3-text-red" title="CONFLICTING"></i>{{end}}
+    <br/>
+    {{ .title}} 
+    
+    <br/> - by
+    <a href="{{.url}}" target="_blank"></a> <a href="{{.author.url}}"  target="_blank">{{ .author.login }}</a>
+    (Updated {{ $last }} days ago) 
+
+    <br/><br/>         
+    <details>
+        <summary>More</summary>
+        <table class="table">
+            <tr>
+                <td>createdAt</td>
+                <td>{{ dateFormat "Jan 2, 2006" .createdAt }}</td>
+            </tr>
+            <tr>
+                <td>updatedAt</td>
+                <td>{{ dateFormat "Jan 2, 2006" .updatedAt }}</td>
+            </tr>
+            <tr>
+                <td>mergeable</td>
+                <td class="{{ .mergeable }}"> {{ .mergeable }}</td>
+            </tr>
+            <tr>
+                <td>reviewDecision</td>
+                <td> {{ .reviewDecision }}</td>
+            </tr>
+        </table>
+    </details> 
+</div>

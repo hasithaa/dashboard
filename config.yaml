@@ -1,0 +1,36 @@
+baseURL : "https://hasithaa.github.io/dashboard/"
+languageCode : "en-us"
+title : "Dashboard"
+
+
+
+permalinks:
+  post: /:filename/
+
+# See icons.getbootstrap.com
+# The value of pre is the icon class
+menu:
+  nav:
+  - name: Home
+    pre: bi-house-door
+    url: /
+    weight: 1
+  - name: Compiler Team
+    pre: 
+    url: /compiler/
+    weight: 2
+  - name: Compiler Tools Team
+    pre: 
+    url: /compilerTools/
+    weight: 3
+  - name: Runtime 
+    pre: 
+    url: /runtime/
+    weight: 4
+
+
+params:
+  showActiveNav: true
+  dateFormat: Jan 2, 2006
+  homeText: Dashboard
+  footerText: ---

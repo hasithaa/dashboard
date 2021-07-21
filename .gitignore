@@ -1,0 +1,9 @@
+bin
+node_modules
+public
+build
+data/*.json
+resources
+# Local Netlify folder
+.netlify
+TODO
