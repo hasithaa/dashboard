@@ -15,18 +15,10 @@ menu:
     pre: bi-house-door
     url: /
     weight: 1
-  - name: Compiler Team
+  - name: Open PRs
     pre: 
-    url: /compiler/
+    url: /prs/
     weight: 2
-  - name: Compiler Tools Team
-    pre: 
-    url: /compilerTools/
-    weight: 3
-  - name: Runtime 
-    pre: 
-    url: /runtime/
-    weight: 4
 
 
 params:

@@ -7,4 +7,4 @@
 {{ .Scratch.Set "date" .Site.Data.PR_RT.data.organization.repository.updatedAt }}
 {{ end }}
 
-<p>Last Updated at {{ time (.Scratch.Get "date")}} </p>
+<div class="toRight">Last Updated at {{ dateFormat "Jan 2, 2006 15:04 MST" ( time (.Scratch.Get "date"))}} </div>

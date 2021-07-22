@@ -1,10 +1,11 @@
-<div class="gh w3-container w3-round w3-border w3-section">
-    {{ $last:= sub now.YearDay (time .updatedAt).YearDay }}
-    <a class="w3-button" href="{{.url}}" target="_blank">
-        <i class="bi bi-github"></i> <strong>#{{ .number }}</strong>
-    </a>
-    {{ if ge $last 10}} <i class="bi bi-calendar-x w3-text-red" title="Older than 10 days"></i>{{end}}
-    {{ if eq .mergeable "CONFLICTING"}} <i class="bi bi-file-earmark-x w3-text-red" title="CONFLICTING"></i>{{end}}
+{{ $last:= sub now.YearDay (time .updatedAt).YearDay }}
+<div class="w3-container w3-round w3-border w3-margin-bottom {{ if eq .mergeable "CONFLICTING" }}w3-pale-red{{ else if ge $last 10 }}w3-pale-red{{ else if ge $last 5 }}w3-pale-yellow{{ else if eq .reviewDecision "APPROVED" }}w3-pale-green{{ end }}">
+    <div class="gh">
+    <div class="">
+        <i class="bi bi-github w3-large"></i> <a class="toRight w3-large" href="{{.url}}" target="_blank"></i><strong>#{{ .number }}</strong></a>
+        {{ if ge $last 5}} <i class="bi bi-calendar-x w3-large" title="Older than {{ $last}} days"></i>{{end}}
+        {{ if eq .mergeable "CONFLICTING"}} <i class="bi bi-file-earmark-x w3-large" title="CONFLICTING"></i>{{end}}
+    </div>
     <br/>
     {{ .title}} 
     
@@ -34,4 +35,5 @@
             </tr>
         </table>
     </details> 
+</div>
 </div>
