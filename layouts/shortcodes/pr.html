@@ -14,7 +14,7 @@
         {{ partial "pr" . }}
     {{ else if and  (eq .isDraft false) (and (eq $view "APPROVED") (eq .reviewDecision "APPROVED")) }}
         {{ partial "pr" . }}
-    {{ else if and  (eq .isDraft false) (and (eq $view "REVIEW_REQUIRED") (eq .reviewDecision "REVIEW_REQUIRED")) }}
+    {{ else if and  (eq .isDraft false) (and (eq $view "REVIEW_REQUIRED") (ne .reviewDecision "APPROVED")) }}
         {{ partial "pr" . }}
     {{ else if and (eq $view "ATTENTION") (eq .mergeable "CONFLICTING") }}
         {{ partial "pr" . }}
