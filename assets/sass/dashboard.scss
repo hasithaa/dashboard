@@ -1,7 +1,5 @@
 @import "node_modules/bootstrap/scss/bootstrap.scss";
 @import "node_modules/w3-css/3/w3.css";
-// @import "node_modules/bootstrap-icons/font/bootstrap-icons.css"; // TODO : Fix me
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css");
 
 .gh h1 {
     font-size: 1.5rem;
@@ -29,7 +27,9 @@
   .toRight {
     text-align: right;
   }
-
+  .toLeft {
+    text-align: left;
+  }
   a:link {
     text-decoration: none;
   }
@@ -45,3 +45,107 @@
   a:active {
     text-decoration: underline;
   }
+
+.pr {
+  border-style: outset;
+}
+
+.pr-title {
+  font-size: 1/25rem;
+  background-color: whitesmoke;
+}
+
+.pr-detail {
+  font-size: 0.85rem;
+  background-color: white;
+}
+
+@font-face {
+  font-family: "bootstrap-icons";
+  src: url("/dashboard/fonts/bootstrap-icons.woff2?856008caa5eb66df68595e734e59580d") format("woff2"),
+url("/dashboard/fonts/bootstrap-icons.woff?856008caa5eb66df68595e734e59580d") format("woff");
+}
+
+[class^="icon-"]::before,
+[class*=" icon-"]::before {
+  display: inline-block;
+  font-family: bootstrap-icons !important;
+  font-style: normal;
+  font-weight: normal !important;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: -.125em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-gh::before{  content: "\f3ed"; }
+.icon-hash::before{ content: "\f40a"; }
+.icon-person-circle::before{ content: "\f4d7" }
+
+.Time_STALE .icon-time::before { 
+  content: "\f659"; color: red;
+} .Time_STALE .icon-time::after { 
+  content: "[Stale]"; color: red;
+}
+
+.Time_OLD .icon-time::before { 
+  content: "\f63c"; color: orange;
+} .Time_OLD .icon-time::after { 
+  content: "[Old]"; color: orange;
+}
+
+.Time_NEW .icon-time::before { 
+  content: ""; color: green;
+} .Time_NEW .icon-time::after { 
+  content: "[New]"; color: green;
+}
+
+.DECISION_APPROVED .icon-review::before {
+  content: "\f4d5"; color: green;
+}.DECISION_APPROVED .icon-review::after {
+  content: "Approved"; color: green
+}
+
+.DECISION_REVIEW_REQUIRED .icon-review::before {
+  content: "\f4cf"; color: yellowgreen;
+}.DECISION_REVIEW_REQUIRED .icon-review::after {
+  content: " Review Required"; color: yellowgreen;
+}
+
+.DECISION_CHANGES_REQUESTED .icon-review::before {
+  content: "\f4df"; color: red;
+}.DECISION_CHANGES_REQUESTED .icon-review::after {
+  content: " Change Requested"; color: red;
+}
+
+.DECISION_UNKNOWN .icon-review::before {
+  content: "\f64e"; color: orange;
+}.DECISION_UNKNOWN .icon-review::after {
+  content: " Review Unknown"; color: orange;
+}
+
+.MERGE_CONFLICTING .icon-merge::before {
+  content: "\f4df"; color: red;
+}.MERGE_CONFLICTING .icon-merge::after {
+  content: " Conflicts"; color: red;
+}
+
+.MERGE_MERGEABLE .icon-merge::before {
+  content: "\f633"; color: green;
+}.MERGE_MERGEABLE .icon-merge::after {
+  content: " Mergable"; color: green;
+}
+
+.MERGE_CONFLICTING .icon-merge::before {
+  content: "\f659"; color: red;
+}.MERGE_CONFLICTING .icon-merge::after {
+  content: " Conflicts"; color: red;
+}
+
+.MERGE_UNKNOWN .icon-merge::before {
+  content: "\f64e"; color: orange;
+}.MERGE_UNKNOWN .icon-merge::after {
+  content: " Merge Status Unknown"; color: orange;
+}

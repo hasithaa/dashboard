@@ -43,6 +43,9 @@ target = "static/js/vendor/jquery/dist/jquery.min.js"
 source = "node_modules/jquery/dist/jquery.min.map"
 target = "static/js/vendor/jquery/dist/jquery.min.map"
 [[module.mounts]]
+source = "node_modules/bootstrap-icons/font/fonts"
+target = "static/fonts/"
+[[module.mounts]]
 source = "assets"
 target = "assets"
 [[module.mounts]]

@@ -1,0 +1,11 @@
+{{ $prs:= .Site.Data.prdata.prs }}
+<div class="w3-container w3-left-align toLeft" >
+    <div class="w3-container " >
+        <div class="w3-container w3-border" >
+            <strong>Prs</strong>
+        </div>
+        {{ range $prs }}
+            {{ partial "pr"  (dict "context" . )  }}
+        {{ end }}
+    </div>
+</div>

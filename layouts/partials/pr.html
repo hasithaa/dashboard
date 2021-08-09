@@ -1,39 +1,17 @@
-{{ $last:= sub now.YearDay (time .updatedAt).YearDay }}
-<div class="w3-container w3-round w3-border w3-margin-bottom {{ if eq .mergeable "CONFLICTING" }}w3-pale-red{{ else if ge $last 10 }}w3-pale-red{{ else if ge $last 5 }}w3-pale-yellow{{ else if eq .reviewDecision "APPROVED" }}w3-pale-green{{ end }}">
-    <div class="gh">
-    <div class="">
-        <i class="bi bi-github w3-large"></i> <a class="toRight w3-large" href="{{.url}}" target="_blank"></i><strong>#{{ .number }}</strong></a>
-        {{ if ge $last 5}} <i class="bi bi-calendar-x w3-large" title="Older than {{ $last}} days"></i>{{end}}
-        {{ if eq .mergeable "CONFLICTING"}} <i class="bi bi-file-earmark-x w3-large" title="CONFLICTING"></i>{{end}}
+<div class="w3-container pr {{ .context.classes }}">
+    <div class="pr-title">
+        <i class="icon icon-gh"></i>
+        <a href="{{.context.url}}" target="_blank">
+            <i class="icon icon-time" title="Last updated {{ dateFormat " Jan 2, 2006" .context.updatedAt }}
+                ({{.context.days}} days ago)"></i>
+            <i class="icon-hash"></i>{{.context.number}} - {{ .context.title }}
+        </a>
     </div>
-    <br/>
-    {{ .title}} 
-    
-    <br/> - by
-    <a href="{{.url}}" target="_blank"></a> <a href="{{.author.url}}"  target="_blank">{{ .author.login }}</a>
-    (Updated {{ $last }} days ago) 
-
-    <br/><br/>         
-    <details>
-        <summary>More</summary>
-        <table class="table">
-            <tr>
-                <td>createdAt</td>
-                <td>{{ dateFormat "Jan 2, 2006" .createdAt }}</td>
-            </tr>
-            <tr>
-                <td>updatedAt</td>
-                <td>{{ dateFormat "Jan 2, 2006" .updatedAt }}</td>
-            </tr>
-            <tr>
-                <td>mergeable</td>
-                <td class="{{ .mergeable }}"> {{ .mergeable }}</td>
-            </tr>
-            <tr>
-                <td>reviewDecision</td>
-                <td> {{ .reviewDecision }}</td>
-            </tr>
-        </table>
-    </details> 
-</div>
+    <div class="pr-detail">
+        Created {{ dateFormat "Jan 2, 2006" .context.createdAt }}
+        by <a href="{{.author.url}}" target="_blank"><i class="icon icon-person-circle"></i>
+            {{ .context.author.login }}</a>
+        <i class="icon icon-merge"></i>
+        <i class="icon icon-review"></i>
+    </div>
 </div>
