@@ -1,0 +1,59 @@
+baseURL = "https://hasithaa.github.io/dashboard/"
+languageCode = "en-us"
+title = "Dashboard"
+homeText = "Dashboard"
+showActiveNav = true
+dateFormat = "Jan 2, 2006"
+
+[permalinks]
+post = "/:filename/"
+
+# See icons.getbootstrap.com
+# The value of pre is the icon class
+[menu]
+[[menu.nav]]
+name = "Home"
+pre = "bi-house-door"
+url = "/"
+weight = 1
+[[menu.nav]]
+name = "Open PRs"
+pre = ""
+url = "/prs/"
+weight = 2
+
+[params]
+footerText= "---"
+
+
+[module]
+[[module.mounts]]
+source = "node_modules/bootstrap-icons/font/fonts/"
+target = "static/fonts"
+[[module.mounts]]
+source = "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+target = "static/js/vendor/bootstrap/dist/bootstrap.bundle.min.js"
+[[module.mounts]]
+source = "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js.map"
+target = "static/js/vendor/bootstrap/dist/bootstrap.bundle.min.js.map"
+[[module.mounts]]
+source = "node_modules/jquery/dist/jquery.min.js"
+target = "static/js/vendor/jquery/dist/jquery.min.js"
+[[module.mounts]]
+source = "node_modules/jquery/dist/jquery.min.map"
+target = "static/js/vendor/jquery/dist/jquery.min.map"
+[[module.mounts]]
+source = "assets"
+target = "assets"
+[[module.mounts]]
+source = "static"
+target = "static"
+[[module.mounts]]
+source = "content"
+target = "content"
+[[module.mounts]]
+source = "layouts"
+target = "layouts"
+[[module.mounts]]
+source = "archetypes"
+target = "archetypes"

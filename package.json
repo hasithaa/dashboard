@@ -1,0 +1,25 @@
+{
+    "name": "bal-tips",
+    "version": "0.1.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "build": "npm run hugo:build",
+        "clean": "npm run hugo:clean",
+        "start": "npm run hugo:serve",
+        "hugo:build": "hugo -d build",
+        "hugo:serve": "hugo server",
+        "hugo:clean": "rm -rf build resources public"
+    },
+    "author": "Hasitha Aravinda",
+    "license": "MIT",
+    "otherDependencies": {
+        "hugo": "0.85.0"
+    },
+    "devDependencies": {
+        "bootstrap": "^5.0",
+        "w3-css": "^4.0",
+        "jquery": "^3.6",
+        "bootstrap-icons" : "^1.5"
+    }
+}
