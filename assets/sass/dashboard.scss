@@ -1,151 +1,197 @@
 @import "node_modules/bootstrap/scss/bootstrap.scss";
 @import "node_modules/w3-css/3/w3.css";
 
-.gh h1 {
-    font-size: 1.5rem;
-  }
+h1 {
+    font-size: 1.35rem;
+}
 
-  .gh h2 {
-    font-size: 1.25rem;
-  }
+h1 {
+    font-size: 1.15rem;
+}
 
-  .gh {
-    font-size: .85rem;
-    text-align: left;
-  }
+.toRight {
+	text-align: right;
+}
 
-  .gh .a {
-    font-size: .85rem;
-    text-align: left;
-  }
+.toLeft {
+	text-align: left;
+}
 
-  .gh .btn {
-    font-size: .85rem;
-    text-align: left;
-  }
+a:link {
+	text-decoration: none;
+}
 
-  .toRight {
-    text-align: right;
-  }
-  .toLeft {
-    text-align: left;
-  }
-  a:link {
-    text-decoration: none;
-  }
+a:visited {
+	text-decoration: none;
+}
 
-  a:visited {
-    text-decoration: none;
-  }
+a:hover {
+	text-decoration: underline;
+}
 
-  a:hover {
-    text-decoration: underline;
-  }
-
-  a:active {
-    text-decoration: underline;
-  }
+a:active {
+	text-decoration: underline;
+}
 
 .pr {
-  border-style: outset;
+	border-style: outset;
 }
 
 .pr-title {
-  font-size: 1/25rem;
-  background-color: whitesmoke;
+	font-size: 1/25rem;
+	background-color: whitesmoke;
+	display: flex;
+	justify-content: space-between;
 }
 
 .pr-detail {
-  font-size: 0.85rem;
-  background-color: white;
+	font-size: 0.85rem;
+	background-color: white;
 }
 
 @font-face {
-  font-family: "bootstrap-icons";
-  src: url("/dashboard/fonts/bootstrap-icons.woff2?856008caa5eb66df68595e734e59580d") format("woff2"),
-url("/dashboard/fonts/bootstrap-icons.woff?856008caa5eb66df68595e734e59580d") format("woff");
+	font-family: "bootstrap-icons";
+	src: url("/dashboard/fonts/bootstrap-icons.woff2?856008caa5eb66df68595e734e59580d") format("woff2"), url("/dashboard/fonts/bootstrap-icons.woff?856008caa5eb66df68595e734e59580d") format("woff");
 }
 
 [class^="icon-"]::before,
 [class*=" icon-"]::before {
-  display: inline-block;
-  font-family: bootstrap-icons !important;
-  font-style: normal;
-  font-weight: normal !important;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  vertical-align: -.125em;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	display: inline-block;
+	font-family: bootstrap-icons !important;
+	font-style: normal;
+	font-weight: normal !important;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	vertical-align: -.125em;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
-.icon-gh::before{  content: "\f3ed"; }
-.icon-hash::before{ content: "\f40a"; }
-.icon-person-circle::before{ content: "\f4d7" }
-
-.Time_STALE .icon-time::before { 
-  content: "\f659"; color: red;
-} .Time_STALE .icon-time::after { 
-  content: "[Stale]"; color: red;
+.icon-gh::before {
+	content: "\f3ed";
 }
 
-.Time_OLD .icon-time::before { 
-  content: "\f63c"; color: orange;
-} .Time_OLD .icon-time::after { 
-  content: "[Old]"; color: orange;
+.icon-hash::before {
+	content: "\f40a";
 }
 
-.Time_NEW .icon-time::before { 
-  content: ""; color: green;
-} .Time_NEW .icon-time::after { 
-  content: "[New]"; color: green;
+.icon-person-circle::before {
+	content: "\f4d7"
 }
 
-.DECISION_APPROVED .icon-review::before {
-  content: "\f4d5"; color: green;
-}.DECISION_APPROVED .icon-review::after {
-  content: "Approved"; color: green
+.icon-tag::before {
+	content: "\f5b0"
 }
 
-.DECISION_REVIEW_REQUIRED .icon-review::before {
-  content: "\f4cf"; color: yellowgreen;
-}.DECISION_REVIEW_REQUIRED .icon-review::after {
-  content: " Review Required"; color: yellowgreen;
+.icon-award::before {
+	content: "\f154"
 }
 
-.DECISION_CHANGES_REQUESTED .icon-review::before {
-  content: "\f4df"; color: red;
-}.DECISION_CHANGES_REQUESTED .icon-review::after {
-  content: " Change Requested"; color: red;
+.icon-file-diff::before {
+	content: "\f364"
 }
 
-.DECISION_UNKNOWN .icon-review::before {
-  content: "\f64e"; color: orange;
-}.DECISION_UNKNOWN .icon-review::after {
-  content: " Review Unknown"; color: orange;
+.icon-file-code::before {
+	content: "\f362"
 }
 
-.MERGE_CONFLICTING .icon-merge::before {
-  content: "\f4df"; color: red;
-}.MERGE_CONFLICTING .icon-merge::after {
-  content: " Conflicts"; color: red;
+.icon-date::before {
+	content: "\f1e4"
 }
 
-.MERGE_MERGEABLE .icon-merge::before {
-  content: "\f633"; color: green;
-}.MERGE_MERGEABLE .icon-merge::after {
-  content: " Mergable"; color: green;
+.icon-open::before {
+	content: "\f3d8"
 }
 
-.MERGE_CONFLICTING .icon-merge::before {
-  content: "\f659"; color: red;
-}.MERGE_CONFLICTING .icon-merge::after {
-  content: " Conflicts"; color: red;
+.icon-draft::before {
+	content: "\f4cb"
 }
 
-.MERGE_UNKNOWN .icon-merge::before {
-  content: "\f64e"; color: orange;
-}.MERGE_UNKNOWN .icon-merge::after {
-  content: " Merge Status Unknown"; color: orange;
+.ic-time-stale,
+.ic-chg-req,
+.ic-conflict {
+	color: red;
+}
+
+.ic-time-old,
+.ic-rvw-unknown,
+.ic-checking,
+.ic-bfix {
+	color: orange;
+}
+
+.ic-rvw-req,
+.ic-efix {
+	color: yellowgreen;
+}
+
+.ic-time-recent,
+.ic-rvw-approved,
+.ic-sync,
+.ic-qfix {
+	color: green;
+}
+
+.icon-time::before,
+.icon-review::before,
+.icon-merge::before,
+.icon-complex::before {
+	color: inherit;
+}
+
+.ic-time-stale.icon-time::before {
+	content: "\f2ab";
+}
+
+.ic-time-old.icon-time::before {
+	content: "\f2be";
+}
+
+.ic-time-recent.icon-time::before {
+	content: "\f1d2";
+}
+
+.ic-rvw-approved.icon-review::before {
+	content: "\f4d5";
+}
+
+.ic-rvw-req.icon-review::before {
+	content: "\f4cf";
+}
+
+.ic-chg-req.icon-review::before {
+	content: "\f4df";
+}
+
+.ic-rvw-unknown.icon-review::before {
+	content: "\f64e";
+}
+
+.ic-conflict.icon-merge::before {
+	content: "\f4df";
+}
+
+.ic-sync.icon-merge::before {
+	content: "\f633";
+}
+
+.ic-checking.icon-merge::before {
+	content: "\f116";
+}
+
+.ic-qfix.icon-complex::before {
+	content: "\f153";
+}
+
+.ic-efix.icon-complex::before {
+	content: "\f153";
+}
+
+.ic-bfix.icon-complex::before {
+	content: "\f153";
+}
+
+.label {
+	background-color: whitesmoke;
 }

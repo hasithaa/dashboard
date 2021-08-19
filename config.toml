@@ -23,7 +23,7 @@ url = "/prs/"
 weight = 2
 
 [params]
-footerText= "---"
+footerText= "Created for My presonal use. Feel free to use, if useful"
 
 
 [module]
@@ -42,9 +42,6 @@ target = "static/js/vendor/jquery/dist/jquery.min.js"
 [[module.mounts]]
 source = "node_modules/jquery/dist/jquery.min.map"
 target = "static/js/vendor/jquery/dist/jquery.min.map"
-[[module.mounts]]
-source = "node_modules/bootstrap-icons/font/fonts"
-target = "static/fonts/"
 [[module.mounts]]
 source = "assets"
 target = "assets"

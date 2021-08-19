@@ -1,11 +1,57 @@
+{{ $filters:= .Site.Data.prdata.filters }}
 {{ $prs:= .Site.Data.prdata.prs }}
-<div class="w3-container w3-left-align toLeft" >
-    <div class="w3-container " >
-        <div class="w3-container w3-border" >
-            <strong>Prs</strong>
-        </div>
+Generated at {{ dateFormat "Jan 2, 2006 15:04 MST" now }}
+<div class="w3-container w3-left-align toLeft">
+    <div class="w3-container">
+        <details>
+            <summary>Filters</summary>
+            <div class="w3-container w3-border">
+                <div>
+                    Teams : {{ range where $filters "kind" "Draft"}}
+                    <label class="filter btn btn-sm {{ .cls }}">
+                        {{ .label }} ({{ .count }})
+                    </label>
+                    {{ end }}
+                </div>
+                <div>
+                    Merge : {{ range where $filters "kind" "Merge"}}
+                    <label class="filter btn btn-sm {{ .cls }}">
+                        {{ .label }} ({{ .count }})
+                    </label>
+                    {{ end }}
+                </div>
+                <div>
+                    Review : {{ range where $filters "kind" "Review"}}
+                    <label class="filter btn btn-sm {{ .cls }}">
+                        {{ .label }} ({{ .count }})
+                    </label>
+                    {{ end }}
+                </div>
+                <div>
+                    Complexity : {{ range where $filters "kind" "Complexity"}}
+                    <label class="filter btn btn-sm {{ .cls }}">
+                        {{ .label }} ({{ .count }})
+                    </label>
+                    {{ end }}
+                </div>
+                <div>
+                    Time : {{ range where $filters "kind" "Time"}}
+                    <label class="filter btn btn-sm {{ .cls }}">
+                        {{ .label }} ({{ .count }})
+                    </label>
+                    {{ end }}
+                </div>
+                <div>
+                    Teams : {{ range where $filters "kind" "Labels"}}
+                    <label class="filter btn btn-sm {{ .cls }}">
+                        {{ .label }} ({{ .count }})
+                    </label>
+                    {{ end }}
+                </div>
+            </div>
+        </details>
         {{ range $prs }}
-            {{ partial "pr"  (dict "context" . )  }}
+        {{ partial "pr"  (dict "context" . )  }}
         {{ end }}
     </div>
 </div>

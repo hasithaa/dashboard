@@ -4,7 +4,9 @@ const MERGE = "Merge";
 const REVIEW = "Review";
 const COMPLEXITY = "Complexity";
 const TIME = "Time";
-const LABELS = "Lables";
+const LABELS = "Labels";
+const DRAFT = "Draft";
+const READY = "Ready";
 
 const REVIEW_UNKNOWN = "REVIEW_UNKNOWN";
 const QUICK = "QUICK";
@@ -32,13 +34,17 @@ type PRStats record {
 };
 
 final table<PRKind> key(name) prdata = table [
+        {name: READY, kind: DRAFT, label: "Ready", cls: "fil-draft"},
+        {name: DRAFT, kind: DRAFT, label: "Draft", cls: "fil-ready"},
+
         {name: "CONFLICTING", kind: MERGE, label: "Conflicting", cls: "fil-conflict"},
         {name: "MERGEABLE", kind: MERGE, label: "In Sync", cls: "fil-sync"},
+        {name: "UNKNOWN", kind: MERGE, label: "Checks running", cls: "fil-checking"},
 
         {name: "CHANGES_REQUESTED", kind: REVIEW, label: "Change Requested", cls: "fil-chg-req"},
         {name: "REVIEW_REQUIRED", kind: REVIEW, label: "Review Required", cls: "fil-rvw-req"},
-        {name: "APPROVED", kind: REVIEW, label: "Approved", cls: "fil-approved"},
-        {name: REVIEW_UNKNOWN, kind: REVIEW, label: "Review Unknown", cls: "fil-approved"},
+        {name: "APPROVED", kind: REVIEW, label: "Approved", cls: "fil-rvw-approved"},
+        {name: REVIEW_UNKNOWN, kind: REVIEW, label: "Review Unknown", cls: "fil-rvw-unknown"},
 
         {name: QUICK, kind: COMPLEXITY, label: "Quick Fix", cls: "fil-qfix"},
         {name: EASY, kind: COMPLEXITY, label: "Easy Fix", cls: "fil-efix"},
@@ -48,7 +54,7 @@ final table<PRKind> key(name) prdata = table [
         {name: OLD, kind: TIME, label: "Old", cls: "fil-time-old"},
         {name: STALE, kind: TIME, label: "Stale", cls: "fil-time-stale"},
 
-        {name: NO_LBL, kind: LABELS, label: "<No Label>", cls: "fil-lbl-no"}
+        {name: NO_LBL, kind: LABELS, label: "<No Team Label>", cls: "fil-lbl-no"}
 
     ];
 
@@ -73,12 +79,19 @@ function calculateStats(PullRequest[] prs) returns json|error {
         // I will use following in generated html. 
         PRStats stats = {};
 
+        if pr.isDraft {
+            updateStat(DRAFT, DRAFT, stats);
+        } else {
+            updateStat(DRAFT, READY, stats);
+        }
+
         // Filter based on merge status
         string mergable = pr.mergeable;
         updateStat(MERGE, mergable, stats);
 
         // Filter based on review status
         string? reviewDecision = pr.reviewDecision;
+        // JBalBug ternary
         updateStat(REVIEW, (reviewDecision is string ? reviewDecision : REVIEW_UNKNOWN), stats);
 
         // Filter complexity on merge status
@@ -112,12 +125,14 @@ function calculateStats(PullRequest[] prs) returns json|error {
         if labels is () || labels.length() == 0 {
             updateStat(LABELS, NO_LBL, stats);
         } else {
-            // Let's use query syntax to iterate the all lables and filter label start with team
+            // Let's use query syntax to iterate the all labels and filter label start with team
             string[] teams = from Label label in labels
                 let string name = label.name
                 where name.startsWith("Team/")
                 select name.substring(5);
             foreach var team in teams {
+                // We will keep only last team label in each PR. 
+                // This is not an issue because we don't use it to render it. 
                 updateStat(LABELS, team, stats);
             }
         }
@@ -125,11 +140,11 @@ function calculateStats(PullRequest[] prs) returns json|error {
         // Add calcuated fields
         // For this I will create a new Json value and merge it with the original json.
         json jsonFilters = {_cls: stats.dataClasses, _lbl: stats.dataLabels, days: stats.days};
-        json prWithFilters = check pr.toJson().mergeJson(jsonFilters);
+        json prWithFilters = check jsonFilters.mergeJson(pr.toJson()); // JBalBug
         prsWithFilters.push(prWithFilters);
     }
 
-    json filteredData = {filters: prdata.toJson(), prs};
+    json filteredData = {filters: prdata.toJson(), prs: prsWithFilters};
     return filteredData;
 
 }

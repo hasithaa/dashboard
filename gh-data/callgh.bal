@@ -17,7 +17,7 @@ public function main() returns error? {
     PullRequest[] prs = check nodes.cloneWithType();
     json prsWithFilters = check calculateStats(prs);
 
-    // JBal Bug. Had to call toJSON to preseved some content.
+    // JBal Bug. Had to call toJSON to save some content.
     check io:fileWriteJson("data/prdata.json", prsWithFilters.toJson());
 }
 
