@@ -7,47 +7,52 @@ Generated at {{ dateFormat "Jan 2, 2006 15:04 MST" now }}
             <summary>Filters</summary>
             <div class="w3-container w3-border">
                 <div>
-                    Teams : {{ range where $filters "kind" "Draft"}}
-                    <label class="filter btn btn-sm {{ .cls }}">
+                    PR : {{ range where $filters "kind" "PR"}}
+                    <label class="filter btn btn-sm ic-{{ (substr (  .cls  ) 4)}}" id="btn-{{.cls}}">
                         {{ .label }} ({{ .count }})
                     </label>
                     {{ end }}
                 </div>
                 <div>
                     Merge : {{ range where $filters "kind" "Merge"}}
-                    <label class="filter btn btn-sm {{ .cls }}">
+                    <label class="filter btn btn-sm ic-{{ (substr (  .cls  ) 4)}}" id="btn-{{.cls}}">
                         {{ .label }} ({{ .count }})
                     </label>
                     {{ end }}
                 </div>
                 <div>
                     Review : {{ range where $filters "kind" "Review"}}
-                    <label class="filter btn btn-sm {{ .cls }}">
+                    <label class="filter btn btn-sm ic-{{ (substr (  .cls  ) 4)}}" id="btn-{{.cls}}">
                         {{ .label }} ({{ .count }})
                     </label>
                     {{ end }}
                 </div>
                 <div>
                     Complexity : {{ range where $filters "kind" "Complexity"}}
-                    <label class="filter btn btn-sm {{ .cls }}">
+                    <label class="filter btn btn-sm ic-{{ (substr (  .cls  ) 4)}}" id="btn-{{.cls}}">
                         {{ .label }} ({{ .count }})
                     </label>
                     {{ end }}
                 </div>
                 <div>
                     Time : {{ range where $filters "kind" "Time"}}
-                    <label class="filter btn btn-sm {{ .cls }}">
+                    <label class="filter btn btn-sm ic-{{ (substr (  .cls  ) 4)}}" id="btn-{{.cls}}">
                         {{ .label }} ({{ .count }})
                     </label>
                     {{ end }}
                 </div>
                 <div>
                     Teams : {{ range where $filters "kind" "Labels"}}
-                    <label class="filter btn btn-sm {{ .cls }}">
+                    <label class="filter btn btn-sm ic-{{ (substr (  .cls  ) 4)}}" id="btn-{{.cls}}">
                         {{ .label }} ({{ .count }})
                     </label>
                     {{ end }}
                 </div>
+                <script>
+                    $(document).ready(function () {
+                        {{ range $filters }}$("#btn-{{.cls}}").click(function () { $(".pr").hide(); $(".{{.cls}}").show(); });{{end}}
+                    });
+                </script>
             </div>
         </details>
         {{ range $prs }}

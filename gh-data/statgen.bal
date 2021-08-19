@@ -1,13 +1,15 @@
 import ballerina/time;
 
+const PR = "PR";
 const MERGE = "Merge";
 const REVIEW = "Review";
 const COMPLEXITY = "Complexity";
 const TIME = "Time";
 const LABELS = "Labels";
-const DRAFT = "Draft";
-const READY = "Ready";
 
+const ALL = "All";
+const READY = "Ready";
+const DRAFT = "Draft";
 const REVIEW_UNKNOWN = "REVIEW_UNKNOWN";
 const QUICK = "QUICK";
 const EASY = "EASY";
@@ -34,8 +36,9 @@ type PRStats record {
 };
 
 final table<PRKind> key(name) prdata = table [
-        {name: READY, kind: DRAFT, label: "Ready", cls: "fil-draft"},
-        {name: DRAFT, kind: DRAFT, label: "Draft", cls: "fil-ready"},
+        {name: ALL, kind: PR, label: "All", cls: "pr"},
+        {name: READY, kind: PR, label: "Ready", cls: "fil-draft"},
+        {name: DRAFT, kind: PR, label: "Draft", cls: "fil-ready"},
 
         {name: "CONFLICTING", kind: MERGE, label: "Conflicting", cls: "fil-conflict"},
         {name: "MERGEABLE", kind: MERGE, label: "In Sync", cls: "fil-sync"},
@@ -79,10 +82,11 @@ function calculateStats(PullRequest[] prs) returns json|error {
         // I will use following in generated html. 
         PRStats stats = {};
 
+        updateStat(PR, ALL, stats);
         if pr.isDraft {
-            updateStat(DRAFT, DRAFT, stats);
+            updateStat(PR, DRAFT, stats);
         } else {
-            updateStat(DRAFT, READY, stats);
+            updateStat(PR, READY, stats);
         }
 
         // Filter based on merge status
