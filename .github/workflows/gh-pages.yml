@@ -24,7 +24,7 @@ jobs:
         uses: ballerina-platform/ballerina-action@master
         with:
           args: 
-            run callgh.bal -- -CGH_TOKEN=${{ secrets.GITHUB_TOKEN }} 
+            run gh-data\ -- -CGH_TOKEN=${{ secrets.GITHUB_TOKEN }} 
       - name: NPM Install
         run: npm install
       - name: Setup Hugo
