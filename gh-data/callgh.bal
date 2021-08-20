@@ -1,9 +1,9 @@
 import ballerina/io;
 import ballerina/http;
 import ballerina/time;
-// import ballerina/lang.value;
 
 configurable string GH_TOKEN = "";
+configurable string[][2] repolist = ?;
 
 final time:Utc NOW = time:utcNow();
 
@@ -11,14 +11,17 @@ public function main() returns error? {
     http:Client ghAPI = check new ("https://api.github.com/");
     map<string> headers = {Authorization: "bearer " + GH_TOKEN};
 
-    json res = check ghAPI->post("graphql", getAllPRsGQLPayload("ballerina-platform", "ballerina-lang"), headers);
+    foreach string[2] repo in repolist {
+        io:println(string `Generating results - ${repo[0]}/${repo[1]}...`);
+        json res = check ghAPI->post("graphql", getAllPRsGQLPayload(repo[0], repo[1]), headers);
+        json nodes = check res.data.organization.repository.pullRequests.nodes;
+        PullRequest[] prs = check nodes.cloneWithType();
+        json prsWithFilters = check calculateStats(prs);
 
-    json nodes = check res.data.organization.repository.pullRequests.nodes;
-    PullRequest[] prs = check nodes.cloneWithType();
-    json prsWithFilters = check calculateStats(prs);
-
-    // JBal Bug. Had to call toJSON to save some content.
-    check io:fileWriteJson("data/prdata.json", prsWithFilters.toJson());
+        // JBal Bug. Had to call toJSON to save some content.
+        check io:fileWriteJson(string `../data/prs-${repo[0]}-${repo[1]}.json`, prsWithFilters.toJson());
+        io:println(string `Generating results - ${repo[0]}/${repo[1]} - Done`);
+    }
 }
 
 function getAllPRsGQLPayload(string organization, string repository) returns json {

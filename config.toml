@@ -5,6 +5,8 @@ homeText = "Dashboard"
 showActiveNav = true
 dateFormat = "Jan 2, 2006"
 
+googleAnalytics = "UA-148733069-1"
+
 [permalinks]
 post = "/:filename/"
 
@@ -23,7 +25,7 @@ url = "/prs/"
 weight = 2
 
 [params]
-footerText= "Created for My presonal use. Feel free to use, if useful"
+footerText= "Created for my presonal use. Feel free to use, if useful"
 
 
 [module]

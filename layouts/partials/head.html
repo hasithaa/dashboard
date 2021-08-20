@@ -14,6 +14,8 @@
   {{- $options := (dict "includePaths" (slice "node_modules")) -}}
   {{- $style := resources.Get "sass/dashboard.scss" | resources.ToCSS $options -}}
   <link rel="stylesheet" href="{{ $style.RelPermalink | absURL }}">
+  {{ template "_internal/google_analytics.html" . }}
+  {{ template "_internal/google_analytics_async.html" . }}
   
   <!-- JavaScript -->
   <script src="/dashboard/js/vendor/bootstrap/dist/bootstrap.bundle.min.js"></script>

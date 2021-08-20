@@ -35,33 +35,35 @@ type PRStats record {
     decimal days = 0;
 };
 
-final table<PRKind> key(name) prdata = table [
-        {name: ALL, kind: PR, label: "All", cls: "pr"},
-        {name: READY, kind: PR, label: "Ready", cls: "fil-draft"},
-        {name: DRAFT, kind: PR, label: "Draft", cls: "fil-ready"},
+function getNewRepoStats() returns table<PRKind> key(name) {
+    return table [
+            {name: ALL, kind: PR, label: "All", cls: "pr"},
+            {name: READY, kind: PR, label: "Ready", cls: "fil-draft"},
+            {name: DRAFT, kind: PR, label: "Draft", cls: "fil-ready"},
 
-        {name: "CONFLICTING", kind: MERGE, label: "Conflicting", cls: "fil-conflict"},
-        {name: "MERGEABLE", kind: MERGE, label: "In Sync", cls: "fil-sync"},
-        {name: "UNKNOWN", kind: MERGE, label: "Checks running", cls: "fil-checking"},
+            {name: "CONFLICTING", kind: MERGE, label: "Conflicting", cls: "fil-conflict"},
+            {name: "MERGEABLE", kind: MERGE, label: "In Sync", cls: "fil-sync"},
+            {name: "UNKNOWN", kind: MERGE, label: "Checks running", cls: "fil-checking"},
 
-        {name: "CHANGES_REQUESTED", kind: REVIEW, label: "Change Requested", cls: "fil-chg-req"},
-        {name: "REVIEW_REQUIRED", kind: REVIEW, label: "Review Required", cls: "fil-rvw-req"},
-        {name: "APPROVED", kind: REVIEW, label: "Approved", cls: "fil-rvw-approved"},
-        {name: REVIEW_UNKNOWN, kind: REVIEW, label: "Review Unknown", cls: "fil-rvw-unknown"},
+            {name: "CHANGES_REQUESTED", kind: REVIEW, label: "Change Requested", cls: "fil-chg-req"},
+            {name: "REVIEW_REQUIRED", kind: REVIEW, label: "Review Required", cls: "fil-rvw-req"},
+            {name: "APPROVED", kind: REVIEW, label: "Approved", cls: "fil-rvw-approved"},
+            {name: REVIEW_UNKNOWN, kind: REVIEW, label: "Review Unknown", cls: "fil-rvw-unknown"},
 
-        {name: QUICK, kind: COMPLEXITY, label: "Quick Fix", cls: "fil-qfix"},
-        {name: EASY, kind: COMPLEXITY, label: "Easy Fix", cls: "fil-efix"},
-        {name: BIG, kind: COMPLEXITY, label: "Big Fix", cls: "fil-bfix"},
+            {name: QUICK, kind: COMPLEXITY, label: "Quick Fix", cls: "fil-qfix"},
+            {name: EASY, kind: COMPLEXITY, label: "Easy Fix", cls: "fil-efix"},
+            {name: BIG, kind: COMPLEXITY, label: "Big Fix", cls: "fil-bfix"},
 
-        {name: RECENT, kind: TIME, label: "Recent", cls: "fil-time-recent"},
-        {name: OLD, kind: TIME, label: "Old", cls: "fil-time-old"},
-        {name: STALE, kind: TIME, label: "Stale", cls: "fil-time-stale"},
+            {name: RECENT, kind: TIME, label: "Recent", cls: "fil-time-recent"},
+            {name: OLD, kind: TIME, label: "Old", cls: "fil-time-old"},
+            {name: STALE, kind: TIME, label: "Stale", cls: "fil-time-stale"},
 
-        {name: NO_LBL, kind: LABELS, label: "<No Team Label>", cls: "fil-lbl-no"}
+            {name: NO_LBL, kind: LABELS, label: "<No Team Label>", cls: "fil-lbl-no"}
 
-    ];
+        ];
+}
 
-function updateStat(string kind, string name, PRStats stats) {
+function updateStat(string kind, string name, PRStats stats, table<PRKind> key(name) prdata) {
     PRKind data;
     if prdata.hasKey(name) {
         data = prdata.get(name);
@@ -76,36 +78,37 @@ function updateStat(string kind, string name, PRStats stats) {
 
 function calculateStats(PullRequest[] prs) returns json|error {
 
+    table<PRKind> key(name) prdata = getNewRepoStats();
     json[] prsWithFilters = [];
     foreach PullRequest pr in prs {
 
         // I will use following in generated html. 
         PRStats stats = {};
 
-        updateStat(PR, ALL, stats);
+        updateStat(PR, ALL, stats, prdata);
         if pr.isDraft {
-            updateStat(PR, DRAFT, stats);
+            updateStat(PR, DRAFT, stats, prdata);
         } else {
-            updateStat(PR, READY, stats);
+            updateStat(PR, READY, stats, prdata);
         }
 
         // Filter based on merge status
         string mergable = pr.mergeable;
-        updateStat(MERGE, mergable, stats);
+        updateStat(MERGE, mergable, stats, prdata);
 
         // Filter based on review status
         string? reviewDecision = pr.reviewDecision;
         // JBalBug ternary
-        updateStat(REVIEW, (reviewDecision is string ? reviewDecision : REVIEW_UNKNOWN), stats);
+        updateStat(REVIEW, (reviewDecision is string ? reviewDecision : REVIEW_UNKNOWN), stats, prdata);
 
         // Filter complexity on merge status
         int additions = pr.additions;
         if additions < 100 {
-            updateStat(COMPLEXITY, QUICK, stats);
+            updateStat(COMPLEXITY, QUICK, stats, prdata);
         } else if additions < 500 {
-            updateStat(COMPLEXITY, EASY, stats);
+            updateStat(COMPLEXITY, EASY, stats, prdata);
         } else {
-            updateStat(COMPLEXITY, BIG, stats);
+            updateStat(COMPLEXITY, BIG, stats, prdata);
         }
 
         // Now Filter based on updated time of the PR. 
@@ -117,17 +120,17 @@ function calculateStats(PullRequest[] prs) returns json|error {
         final decimal days = decimal:round(seconds / (60 * 60 * 24));
         stats.days = days;
         if days >= 10d {
-            updateStat(TIME, STALE, stats);
+            updateStat(TIME, STALE, stats, prdata);
         } else if days >= 5d {
-            updateStat(TIME, OLD, stats);
+            updateStat(TIME, OLD, stats, prdata);
         } else {
-            updateStat(TIME, RECENT, stats);
+            updateStat(TIME, RECENT, stats, prdata);
         }
 
         // Now Filter based on Team/Label.
         Label[]|() labels = pr.labels?.nodes;
         if labels is () || labels.length() == 0 {
-            updateStat(LABELS, NO_LBL, stats);
+            updateStat(LABELS, NO_LBL, stats, prdata);
         } else {
             // Let's use query syntax to iterate the all labels and filter label start with team
             string[] teams = from Label label in labels
@@ -137,7 +140,7 @@ function calculateStats(PullRequest[] prs) returns json|error {
             foreach var team in teams {
                 // We will keep only last team label in each PR. 
                 // This is not an issue because we don't use it to render it. 
-                updateStat(LABELS, team, stats);
+                updateStat(LABELS, team, stats, prdata);
             }
         }
 
@@ -150,5 +153,4 @@ function calculateStats(PullRequest[] prs) returns json|error {
 
     json filteredData = {filters: prdata.toJson(), prs: prsWithFilters};
     return filteredData;
-
 }

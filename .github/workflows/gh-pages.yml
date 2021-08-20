@@ -23,8 +23,10 @@ jobs:
       - name: Ballerina Build
         uses: ballerina-platform/ballerina-action@master
         with:
+          env:
+            WORKING_DIR = gh-data/
           args: 
-            run gh-data -- -CGH_TOKEN=${{ secrets.GITHUB_TOKEN }} 
+            run -- -CGH_TOKEN=${{ secrets.GITHUB_TOKEN }} 
       - name: NPM Install
         run: npm install
       - name: Setup Hugo
