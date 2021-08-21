@@ -37,9 +37,9 @@ type PRStats record {
 
 function getNewRepoStats() returns table<PRKind> key(name) {
     return table [
-            {name: ALL, kind: PR, label: "All", cls: "pr"},
-            {name: READY, kind: PR, label: "Ready", cls: "fil-draft"},
-            {name: DRAFT, kind: PR, label: "Draft", cls: "fil-ready"},
+            {name: ALL, kind: PR, label: "All", cls: "fil-pr"},
+            {name: READY, kind: PR, label: "Ready", cls: "fil-ready"},
+            {name: DRAFT, kind: PR, label: "Draft", cls: "fil-draft"},
 
             {name: "CONFLICTING", kind: MERGE, label: "Conflicting", cls: "fil-conflict"},
             {name: "MERGEABLE", kind: MERGE, label: "In Sync", cls: "fil-sync"},
@@ -58,18 +58,18 @@ function getNewRepoStats() returns table<PRKind> key(name) {
             {name: OLD, kind: TIME, label: "Old", cls: "fil-time-old"},
             {name: STALE, kind: TIME, label: "Stale", cls: "fil-time-stale"},
 
-            {name: NO_LBL, kind: LABELS, label: "<No Team Label>", cls: "fil-lbl-no"}
+            {name: NO_LBL, kind: LABELS, label: "<None>", cls: "fil-team-no"}
 
         ];
 }
 
-function updateStat(string kind, string name, PRStats stats, table<PRKind> key(name) prdata) {
+function updateStat(string kind, string name, PRStats stats, table<PRKind> key(name) prdata, string clsPrefix = "") {
     PRKind data;
     if prdata.hasKey(name) {
         data = prdata.get(name);
         data.count = data.count + 1;
     } else {
-        data = {name: name, kind: kind, label: name, cls: "fil-" + name, count: 1};
+        data = {name: name, kind: kind, label: name, cls: "fil-" + clsPrefix + name, count: 1};
     }
     stats.dataClasses[kind] = data.cls;
     stats.dataLabels[kind] = data.label;
@@ -140,7 +140,7 @@ function calculateStats(PullRequest[] prs) returns json|error {
             foreach var team in teams {
                 // We will keep only last team label in each PR. 
                 // This is not an issue because we don't use it to render it. 
-                updateStat(LABELS, team, stats, prdata);
+                updateStat(LABELS, team, stats, prdata, "team-");
             }
         }
 

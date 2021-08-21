@@ -22,9 +22,10 @@ jobs:
           node-version: '14'
       - name: Ballerina Build
         uses: ballerina-platform/ballerina-action@master
+        env:
+          WORKING_DIR : 'gh-data/'
+          BAL_CONFIG_FILES : './config.toml'
         with:
-          env:
-            WORKING_DIR = gh-data/
           args: 
             run -- -CGH_TOKEN=${{ secrets.GITHUB_TOKEN }} 
       - name: NPM Install

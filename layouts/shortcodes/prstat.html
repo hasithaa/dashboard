@@ -1,0 +1,23 @@
+{{ $prdata:= index .Site.Data (.Get 0) }}
+{{ $filters:= $prdata.filters }}
+{{ $prs:= $prdata.prs }}
+{{ $kinds := slice }}
+{{ range $filters }}
+{{ $kinds = $kinds | append .kind }}
+{{ end }}
+{{ $kinds = uniq $kinds }}
+<div class="toLeft">
+    <h3>{{.Get 1}}</h3><a href="{{.Get 2}}">View All PRs</a>
+    <div class="card-group toLeft ">
+        {{ range $val:= $kinds }}
+        <div class="card dash-split">
+            <strong>{{ $val }} </strong>
+            {{ range where $filters "kind" $val}}
+            <div class="card-text"><i class="icon icon-{{ (substr (  .cls  ) 4)}}"></i> {{ .label }} ({{ .count }})
+            </div>
+            {{ end }}
+        </div>
+        {{ end }}
+
+    </div>
+</div>

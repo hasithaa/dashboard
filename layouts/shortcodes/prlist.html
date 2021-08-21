@@ -6,7 +6,6 @@
 {{ $kinds = $kinds | append .kind }}
 {{ end }}
 {{ $kinds = uniq $kinds }}
-Generated at {{ dateFormat "Jan 2, 2006 15:04 MST" now }}
 <div class="card card-body toLeft">
     <a class="btn btn-sm" data-bs-toggle="collapse" href="#filters" role="button" aria-expanded="false"
         aria-controls="collapseExample">Filters</a>
@@ -22,7 +21,7 @@ Generated at {{ dateFormat "Jan 2, 2006 15:04 MST" now }}
     </div>
     <script>
         $(document).ready(function () {
-            {{ range $filters }} $("#btn-{{.cls}}").click(function () { $(".pr").hide(); $(".{{.cls}}").show(); }); {{ end }}
+            {{ range $filters }} $("#btn-{{.cls}}").click(function () { $(".pr").hide(); $(".{{if ne .cls "fil-pr"}}{{.cls}}{{else}}pr{{end}}").show(); }); {{ end }}
         });
     </script>
     {{ range $prs }}
