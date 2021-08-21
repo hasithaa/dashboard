@@ -1,5 +1,4 @@
 @import "node_modules/bootstrap/scss/bootstrap.scss";
-@import "node_modules/w3-css/3/w3.css";
 
 h1 {
     font-size: 1.35rem;
@@ -84,20 +83,12 @@ a:active {
 	content: "\f5b0"
 }
 
-.icon-award::before {
-	content: "\f154"
-}
-
 .icon-file-diff::before {
 	content: "\f364"
 }
 
 .icon-file-code::before {
 	content: "\f362"
-}
-
-.icon-date::before {
-	content: "\f1e4"
 }
 
 .icon-open::before {
@@ -108,87 +99,86 @@ a:active {
 	content: "\f4cb"
 }
 
-.ic-time-stale,
-.ic-chg-req,
-.ic-conflict {
+.icon-time-stale,
+.icon-chg-req,
+.icon-conflict {
 	color: red;
 }
 
-.ic-time-old,
-.ic-rvw-unknown,
-.ic-checking,
-.ic-bfix {
+.icon-time-old,
+.icon-rvw-unknown,
+.icon-checking,
+.icon-bfix {
 	color: orange;
 }
 
-.ic-rvw-req,
-.ic-efix {
+.icon-rvw-req,
+.icon-efix {
 	color: yellowgreen;
 }
 
-.ic-time-recent,
-.ic-rvw-approved,
-.ic-sync,
-.ic-qfix {
+.icon-time-recent,
+.icon-rvw-approved,
+.icon-sync,
+.icon-qfix {
 	color: green;
 }
 
-.icon-time::before,
-.icon-review::before,
-.icon-merge::before,
-.icon-complex::before {
-	color: inherit;
+.icon-bfix::before ,
+.icon-efix::before ,
+.icon-qfix::before {
+	content: "\f154"
 }
 
-.ic-time-stale.icon-time::before {
+.icon-time-stale::before {
 	content: "\f2ab";
 }
 
-.ic-time-old.icon-time::before {
+.icon-time-old::before {
 	content: "\f2be";
 }
 
-.ic-time-recent.icon-time::before {
+.icon-time-recent::before {
 	content: "\f1d2";
 }
 
-.ic-rvw-approved.icon-review::before {
+.icon-rvw-approved::before {
 	content: "\f4d5";
 }
 
-.ic-rvw-req.icon-review::before {
+.icon-rvw-req::before {
 	content: "\f4cf";
 }
 
-.ic-chg-req.icon-review::before {
+.icon-chg-req::before {
 	content: "\f4df";
 }
 
-.ic-rvw-unknown.icon-review::before {
+.icon-rvw-unknown::before {
 	content: "\f64e";
 }
 
-.ic-conflict.icon-merge::before {
+.icon-conflict::before {
 	content: "\f4df";
 }
 
-.ic-sync.icon-merge::before {
+.icon-sync::before {
 	content: "\f633";
 }
 
-.ic-checking.icon-merge::before {
+.icon-checking::before {
 	content: "\f116";
 }
 
-.ic-qfix.icon-complex::before {
+.icon-qfix::before {
 	content: "\f153";
 }
 
-.ic-efix.icon-complex::before {
+.icon-efix::before {
 	content: "\f153";
 }
 
-.ic-bfix.icon-complex::before {
+.icon-bfix::before {
 	content: "\f153";
 }
 

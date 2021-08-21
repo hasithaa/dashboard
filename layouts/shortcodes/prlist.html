@@ -3,32 +3,29 @@
 {{ $prs:= $prdata.prs }}
 {{ $kinds := slice }}
 {{ range $filters }}
-    {{ $kinds = $kinds | append .kind }}
+{{ $kinds = $kinds | append .kind }}
 {{ end }}
 {{ $kinds = uniq $kinds }}
 Generated at {{ dateFormat "Jan 2, 2006 15:04 MST" now }}
-<div class="w3-container w3-left-align toLeft">
-    <div class="w3-container">
-        <details>
-            <summary>Filters</summary>
-            <div class="w3-container w3-border">
-                {{ range $val:= $kinds }}
-                <div>
-                {{ $val }} : {{ range where $filters "kind" $val}}
-                    <input class="btn btn-primarybtn-sm ic-{{ (substr (  .cls  ) 4)}}" id="btn-{{.cls}}" type="button"
-                        value="{{ .label }} ({{ .count }})">
-                    {{ end }}
-                </div>               
-                {{ end }}
-                <script>
-                    $(document).ready(function () {
-                        {{ range $filters }} $("#btn-{{.cls}}").click(function () { $(".pr").hide(); $(".{{.cls}}").show(); }); {{ end }}
-                    });
-                </script>
-            </div>
-        </details>
-        {{ range $prs }}
-        {{ partial "pr"  (dict "context" . )  }}
+<div class="card card-body toLeft">
+    <a class="btn btn-sm" data-bs-toggle="collapse" href="#filters" role="button" aria-expanded="false"
+        aria-controls="collapseExample">Filters</a>
+    <div id="filters" class="collapse">
+        {{ range $val:= $kinds }}
+        <div>
+            {{ $val }} : {{ range where $filters "kind" $val}}
+            <input class="btn btn-sm icon-{{ (substr (  .cls  ) 4)}}" id="btn-{{.cls}}" type="button"
+                value="{{ .label }} ({{ .count }})">
+            {{ end }}
+        </div>
         {{ end }}
     </div>
+    <script>
+        $(document).ready(function () {
+            {{ range $filters }} $("#btn-{{.cls}}").click(function () { $(".pr").hide(); $(".{{.cls}}").show(); }); {{ end }}
+        });
+    </script>
+    {{ range $prs }}
+    {{ partial "pr"  (dict "context" . )  }}
+    {{ end }}
 </div>
